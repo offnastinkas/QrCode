@@ -1,7 +1,7 @@
 const button = document.querySelector(".button");
 const urlInput = document.querySelector("#url");
 const fileInput = document.querySelector(".file");
-function Qrcode(url,color,backgroundcolor,isDownload,insideImg) {
+function Qrcode(url,color,backgroundcolor,isDownload,insideImg , width = 280, height= 280) {
     const qrCode = new QRCodeStyling({
         width: 280,
         height: 280,
@@ -26,6 +26,7 @@ function Qrcode(url,color,backgroundcolor,isDownload,insideImg) {
         qrCode.download({name: "qr" , extension: "svg"});
     }
 }
+Qrcode("https://qr-code-chi-flax.vercel.app/", "#000","#fff",false, "../image/images.png");
 // ** Asosiy Generate tugmasi bosilganda**
 button.addEventListener("click", function () {
     if (fileInput.files.length > 0) {
@@ -42,6 +43,8 @@ button.addEventListener("click", function () {
 
 // ** Oq rang tugmasi bosilganda**
 document.querySelector(".white").addEventListener("click", function () {
+    document.querySelector(".black").style.border = "none";
+    document.querySelector(".white").style.border = "2px solid blue";
     if (fileInput.files.length > 0) {
         let reader = new FileReader();
         reader.onload = function (event) {
@@ -57,6 +60,8 @@ document.querySelector(".white").addEventListener("click", function () {
 
 // ** Qora rang tugmasi bosilganda**
 document.querySelector(".black").addEventListener("click", function () {
+    document.querySelector(".black").style.border = "2px solid blue";
+    document.querySelector(".white").style.border = "none";
     if (fileInput.files.length > 0) {
         let reader = new FileReader();
         reader.onload = function (event) {
@@ -81,5 +86,12 @@ document.querySelector(".download").addEventListener("click", function () {
         reader.readAsDataURL(fileInput.files[0]);
     } else {
         Qrcode(urlInput.value, "#000", "#fff", true, "../img/logo-big.png");
+    }
+});
+window.addEventListener("resize",function(){
+    if(window.screen.availWidth <= 380){
+        Qrcode("https://qr-code-chi-flax.vercel.app/", "#000","#fff",false, "../image/images.png", 200,200);
+    }else{
+        Qrcode("https://qr-code-chi-flax.vercel.app/", "#000","#fff",false, "../image/images.png",280,280);
     }
 });
